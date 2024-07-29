@@ -77,9 +77,10 @@ The sensor folder contains a .yaml file (e.g. [sensor_intergas_Xtend.yaml](confi
 This sensor retrieves every 2 minutes (120 seconds) the specified sensordata from the Xtend API.
 
 > [!NOTE]
-> The fields in the URL above are the entities used on the Xtend dashboard described in a paragraph below. No need to request more fields then neccesary. If you want to use Opentherm boiler data as well, you also need to add the 
-> There are a lot more fields available from the Xtend API. See the file [Known Xtend Codes](Known_Xtend_codes.md) or [parse-message.js](https://github.com/thomasvt1/xtend-bridge/blob/main/parse-message.js) from thomasvt1
-> 
+>
+> * The fields in the URL above are the entities used on the Xtend dashboard described in a paragraph below. No need to request more fields then neccesary.
+> * If you want to use Opentherm boiler data as well, you also need to add the [sensor_intergas_xtreme.yaml](/config/sensors/sensor_intergas_xtreme.yaml) to the _sensors_ folder.
+> * There are a lot more fields available from the Xtend API. See the file [Known Xtend Codes](Known_Xtend_codes.md) or [parse-message.js](https://github.com/thomasvt1/xtend-bridge/blob/main/parse-message.js) from thomasvt1
 
 > [!TIP]
 > Don't configure a scan interval above 300 (5 min). In my experience the wifi connection will disconnect due to inactivity and you need to repeat the previous paragraph, including climbing the stairs to push the button on the Xtend.
@@ -129,6 +130,10 @@ The templates folder contains a .yaml file (e.g. template_intergas_Xtend.yaml) w
         {{ state_attr('sensor.Intergas_Xtend', 'stats')['5041'] | float / 10 }}
 ```
 
+> [!NOTE]
+>
+> * If you want to use Opentherm boiler data as well, you also need to add the [template_intergas_xtreme.yaml](/config/templates/template_intergas_xtreme.yaml) to the _templates_ folder.
+
 To load this template in HA repeat the steps in the _Developer Tools_ like described in the paragraph _Sensor configuration_. You can also use the _Template entities_ button in the section _Developer Tools/YAML/YAML configuration reloading_.
 
 When you succesfully load the template file you will see the entities appear in HA. It should look something like the image below.
@@ -147,7 +152,7 @@ So far so good .... it's time to use the obtained data in a dashboard.
 > * I haven't got time to get to the boiler information yet.
 > * The Xtend provide a weird value of **32767** (maximum Integer value) for pressures and temperatures. I suspect these mean _Not available_ but will contact Intergas to make sure.
 
-My Xtend Heatpump dashboard looks like this.
+My Xtend Heatpump dashboard looks like this. The room in the 2nd column is for a hidden notification card, that only appears when there is a notification, other than '-'.
 
 ![XtendDash](images/HA_Xtend_boiler_dashboard.png)
 
@@ -155,7 +160,7 @@ My Xtend Heatpump dashboard looks like this.
 >
 > * These screenshots are taken just after the Xtend was installed in Summer!. The CoP of 13 is a result of some test runs and not a realistic value. :sunglasses:
 > * In the config folder I added two dashboards. One with [Opentherm boiler data](Xtend_boiler_dashboard.yaml) and one with only the [Xtend heatpump data](Xtend_dashboard.yaml).
-> * In the both dashboards there is a hidden notification card that only appears when there is a notification, other than '-'.
+> * The hidden notification card is added in both dashboard. You can view this card in the _Edit dashboard_ mode.
 
 Follow these steps to import this dashboard in your HA.
 
