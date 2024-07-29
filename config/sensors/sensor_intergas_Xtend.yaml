@@ -1,9 +1,9 @@
 - platform: rest
   name: Intergas_Xtend
   unique_id: 71298044-d08d-494c-a415-41a72b4a3aaa
-  resource: http://10.20.30.1/api/stats/values?fields=7e06,79b3,7940,7921,50f2,503e,5041,5088,5077,63f0,63b3,63df,6a8e,6ac5,71a7,7160,777d,6a53,65b0,6579,7ed3,629c,6280,62e7,7767,65d9,6505,7e51,65c1,6cfb,6c33,65a7,6c8a,6578,6c66,62d1,7e2c,4133,6c53,6c26,6ceb,7ee6,7e81,7e31,47e0
+  resource: http://10.20.30.1/api/stats/values?fields=7e7a,77dd,79b3,7940,7921,50f2,503e,5041,5088,5077,63f0,63b3,63df,6a8e,6ac5,71a7,7160,777d,6a53,65b0,6579,7ed3,629c,6280,62e7,7767,65d9,6505,7e51,65c1,6cfb,6c33,65a7,6c8a,6578,6c66,62d1,7e2c,4133,6c53,6c26,6ceb,7ee6,47e0,8e1e,8ecc,8edb,8ecb,8e37,8e7f,8e8f,8ef9,8e00,8e38,8457,8415,841f,848e,841b,8434,84d1,844c
   scan_interval: 120
-  value_template: "OK"
+  value_template: "Ok"
   timeout: 30
   json_attributes:
     - stats

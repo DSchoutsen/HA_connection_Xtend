@@ -1,0 +1,142 @@
+- sensor:
+    - name: xtreme_tBoilerSupply
+      unique_id: 4ecd2fc5-4895-4eee-9faf-d4f40a74b1f1
+      unit_of_measurement: "°C"
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['625b'] | int / 100 }}
+      icon: mdi:water-thermometer
+
+    - name: xtreme_tBoilerReturn
+      unique_id: cdfb249d-a49d-4df0-a4bc-b7e2b9cc77d2
+      unit_of_measurement: "°C"
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['623c'] | int / 100 }}
+      icon: mdi:water-thermometer-outline
+
+    - name: xtreme_burner_status
+      unique_id: af8128bb-51b3-4bbe-bbc6-dca209d68bb1
+      state: >
+        {% set value = state_attr('sensor.Intergas_Xtreme', 'stats')['7e7a'] %}
+        {% if value == 0 %}
+          Startup
+        {% elif value == 1 %}
+          Interpurge
+        {% elif value == 2 %}
+          Postpurge
+        {% elif value == 4 %}
+          Prepurge
+        {% elif value == 8 %}
+          Ignition
+        {% elif value == 16 %}
+          Waiting
+        {% elif value == 32 %}
+          Running
+        {% elif value == 64 %}
+          Rest
+        {% elif value == 128 %}
+          Lockout
+        {% else %}
+          Unknown
+        {% endif %}
+      icon: mdi:fire
+
+    - name: xtreme_boiler_ot_slave_version
+      unique_id: 792e11c4-e482-4300-a605-299dd03431ab
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8e1e'] }}
+      icon: mdi:check-decagram
+
+    - name: xtreme_boiler_ot_slave_opentherm_version
+      unique_id: d0f1565b-78d5-4802-a011-2042a83023f5
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8ecc'] }}
+      icon: mdi:check-decagram
+
+    - name: xtreme_boiler_ot_dhw_temperature
+      unique_id: b0edc5cb-bba0-45d4-872e-bdb58da4977e
+      unit_of_measurement: "°C"
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8edb'] | int / 100 }}
+      icon: mdi:water-thermometer
+
+    - name: xtreme_boiler_ot_dhw_setpoint
+      unique_id: c0928c37-ebf9-40aa-8c66-8224fb03c520
+      unit_of_measurement: "°C"
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8ecb'] | int / 100 }}
+      icon: mdi:stop-circle-outline
+
+    - name: xtreme_boiler_ot_dhw_hours
+      unique_id: 7d3eb767-2605-4f90-b6ce-b335441561b6
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8e37'] | int }}
+      icon: mdi:counter
+      unit_of_measurement: "hours"
+
+    - name: xtreme_boiler_ot_dhw_flowrate
+      unique_id: c981ee19-b9ea-488d-85eb-616d7c4633d1
+      unit_of_measurement: "l/min"
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8e7f'] | int / 100 }}
+      icon: mdi:waves-arrow-right
+
+    - name: xtreme_boiler_ot_ch_water_setpoint
+      unique_id: eda397f0-856e-47fe-a33e-d8139e67c52e
+      unit_of_measurement: "°C"
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8e8f'] | int / 100 }}
+      icon: mdi:thermometer-auto
+
+    - name: xtreme_boiler_ot_ch_hours
+      unique_id: ef280317-7a28-4408-9742-071f2459b4aa
+      unit_of_measurement: "hours"
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8ef9'] | int }}
+      icon: mdi:counter
+
+    - name: xtreme_boiler_ot_burner_starts
+      unique_id: 9c582adf-6774-488d-ad58-ae1501ae03fa
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8e00'] }}
+      icon: mdi:counter
+
+    - name: xtreme_ot_boiler_temp_s16
+      unique_id: f38ff2cb-0793-489a-ac33-e9bde75bdc49
+      unit_of_measurement: "°C"
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8e38'] | int / 100 }}
+      icon: mdi:thermometer-check
+
+    - name: xtreme_boiler_ot_modulation_level_set
+      unique_id: 667dc2ef-08d9-4468-90c8-3a7ff1ba6dc9
+      unit_of_measurement: "%"
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['848e'] | int / 100 }}
+      icon: mdi:percent-box-outline
+
+    - name: xtreme_boiler_ot_control_setpoint
+      unique_id: 24748fbe-e0c2-4ca7-ad36-50ec672ba58f
+      unit_of_measurement: "°C"
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8434'] | int / 100 }}
+      icon: mdi:thermometer
+
+    - name: xtreme_boiler_ot_modulation_level
+      unique_id: 32d46c10-9f08-49b2-b0a6-aedb156dad93
+      unit_of_measurement: "%"
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['84d1'] | int / 100 }}
+      icon: mdi:percent
+
+    - name: xtreme_boiler_ot_ch_pressure
+      unique_id: 699a10f7-9ba7-4c4a-9eb0-d983402d6df4
+      unit_of_measurement: "bar"
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['844c'] | int / 100 }}
+      icon: mdi:timeline-clock
+
+    - name: xtreme_boiler_ot_flame_loss
+      unique_id: 656a5aaf-f5a6-4894-b71f-df13d0dd3fe5
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8e18'] | int }}
+      icon: mdi:counter

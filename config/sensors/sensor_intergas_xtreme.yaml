@@ -1,0 +1,9 @@
+- platform: rest
+  name: Intergas_Xtreme
+  unique_id: 25e2d597-74a7-4c44-a0ec-67bf43f5965b
+  resource: http://10.20.30.1/api/stats/values?fields=625b,623c,7e7a,8e1e,8ecc,8edb,8ecb,8e37,8e7f,8e8f,8ef9,8e00,8e38,848e,8434,84d1,844c,8e18
+  scan_interval: 122
+  value_template: "Ok"
+  timeout: 30
+  json_attributes:
+    - stats
