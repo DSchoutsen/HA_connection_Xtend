@@ -1,8 +1,8 @@
-title: Xtend Heatpump
-path: Xtend_Heatpump
-icon: mdi:heat-pump-outline
+title: Xtend Heatpump & Boiler
+path: Xtend_Heatpump_Boiler
+icon: mdi:heating-coil
 type: sections
-max_columns: 3
+max_columns: 4
 sections:
   - type: grid
     cards:
@@ -32,6 +32,13 @@ sections:
           - entity: sensor.xtend_software_version
             name: Software Version
         title: Heatpump Summary
+      - type: entities
+        entities:
+          - entity: sensor.xtreme_boiler_ot_burner_starts
+          - entity: sensor.xtreme_boiler_ot_ch_hours
+          - entity: sensor.xtreme_boiler_ot_dhw_hours
+          - entity: sensor.xtreme_boiler_ot_flame_loss
+        title: Boiler Summary
   - type: grid
     cards:
       - type: markdown
@@ -115,13 +122,6 @@ sections:
             title: Return temp
             entity: sensor.xtend_thpreturn
             scale: 20px
-      - type: entities
-        entities:
-          - entity: sensor.xtend_currentpowerthermal
-          - entity: sensor.xtend_currentboilerpowerthermal
-          - entity: sensor.xtend_thermalenergyboiler
-        state_color: true
-        title: Energy performance
   - type: grid
     cards:
       - type: entities
@@ -175,5 +175,24 @@ sections:
           - entity: sensor.xtend_errorcode
             name: Error Code
         title: Heatpump live data
+  - type: grid
+    cards:
+      - type: entities
+        entities:
+          - entity: sensor.xtreme_boiler_ot_slave_opentherm_version
+          - entity: sensor.xtreme_boiler_ot_slave_version
+          - entity: sensor.xtreme_ot_boiler_temp_s16
+          - entity: sensor.xtreme_burner_status
+          - entity: sensor.xtreme_boiler_ot_modulation_level_set
+          - entity: sensor.xtreme_boiler_ot_modulation_level
+          - entity: sensor.xtreme_boiler_ot_dhw_setpoint
+          - entity: sensor.xtreme_boiler_ot_dhw_temperature
+          - entity: sensor.xtreme_boiler_ot_dhw_flowrate
+          - entity: sensor.xtreme_boiler_ot_ch_pressure
+          - entity: sensor.xtreme_boiler_ot_ch_water_setpoint
+          - entity: sensor.xtreme_tboilersupply
+          - entity: sensor.xtreme_tboilerreturn
+          - entity: sensor.xtreme_boiler_ot_control_setpoint
+        title: Boiler live data
 cards: []
 background: {}
