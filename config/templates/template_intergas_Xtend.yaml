@@ -113,6 +113,7 @@
 
     - name: xtend_currentCop
       unique_id: faa0c93c-5f46-4ff7-b9ce-bb609af880de
+      unit_of_measurement: "thermal/KWh"
       state: >
         {{ state_attr('sensor.Intergas_Xtend', 'stats')['5041'] | int / 10 }}
       icon: mdi:gauge
@@ -641,6 +642,7 @@
       # Custom calculated xtend entities
     - name: xtend_cop_total
       unique_id: 1b5bdd12-0c38-417e-a460-0c6a5a2553f9
+      unit_of_measurement: "thermal/KWh"
       state: >
         {{ (states('sensor.xtend_thermalEnergyHeating') | int / states('sensor.xtend_electricEnergyHeating') | int ) | float | round(1) }}
       icon: mdi:gauge
@@ -651,3 +653,10 @@
       state: >
         {{ (states('sensor.xtend_tHpSupply') | int - states('sensor.xtend_tHpReturn') | int) | float | round(1) }}
       icon: mdi:thermometer-check
+
+    - name: xtend_thermal_total
+      unique_id: 878a34fe-2b97-4f62-af3d-001e6f417e7e
+      unit_of_measurement: "kWh"
+      state: >
+        {{ (states('sensor.xtend_thermalEnergyHeating') | float + states('sensor.xtend_thermalEnergyBoiler') | float) | round(0) }}
+      icon: mdi:thermometer-lines
