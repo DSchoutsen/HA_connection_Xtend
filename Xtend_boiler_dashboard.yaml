@@ -180,19 +180,33 @@ sections:
       - type: entities
         entities:
           - entity: sensor.xtreme_boiler_ot_slave_opentherm_version
+            name: Boiler OT version
           - entity: sensor.xtreme_boiler_ot_slave_version
+            name: Boiler OT slave version
           - entity: sensor.xtreme_ot_boiler_temp_s16
+            name: Boiler temperature
           - entity: sensor.xtreme_burner_status
+            name: Boiler flame
           - entity: sensor.xtreme_boiler_ot_modulation_level_set
+            name: Boiler modulation target
           - entity: sensor.xtreme_boiler_ot_modulation_level
+            name: Boiler modulation level
           - entity: sensor.xtreme_boiler_ot_dhw_setpoint
+            name: Boiler DHW max.
           - entity: sensor.xtreme_boiler_ot_dhw_temperature
+            name: Boiler DHW actual
           - entity: sensor.xtreme_boiler_ot_dhw_flowrate
+            name: Boiler DHW flowrate
           - entity: sensor.xtreme_boiler_ot_ch_pressure
+            name: Boiler CH pressure
           - entity: sensor.xtreme_boiler_ot_ch_water_setpoint
+            name: Boiler CH target
           - entity: sensor.xtreme_tboilersupply
+            name: Boiler CH supply
           - entity: sensor.xtreme_tboilerreturn
+            name: Boiler CH return
           - entity: sensor.xtreme_boiler_ot_control_setpoint
+            name: Boiler control setpoint
         title: Boiler live data
 cards: []
 background: {}
