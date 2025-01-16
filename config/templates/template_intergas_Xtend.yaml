@@ -107,20 +107,22 @@
     - name: xtend_currentHpPowerThermal
       unique_id: 2d3ec316-ab0e-4e95-b909-2a80110f149b
       unit_of_measurement: "KW"
+      state_class: measurement
       state: >
         {{ state_attr('sensor.Intergas_Xtend', 'stats')['503e'] | int / 1000}}
       icon: mdi:thermometer-lines
 
     - name: xtend_currentCop
       unique_id: faa0c93c-5f46-4ff7-b9ce-bb609af880de
-      unit_of_measurement: "thermal/KWh"
+      unit_of_measurement: "thermal/kWh"
       state: >
         {{ state_attr('sensor.Intergas_Xtend', 'stats')['5041'] | int / 10 }}
       icon: mdi:gauge
 
     - name: xtend_currentPowerThermal
       unique_id: 43815c81-3397-4998-87d0-f983db96b1e6
-      unit_of_measurement: "KW"
+      unit_of_measurement: "kW"
+      state_class: measurement
       state: >
         {{ state_attr('sensor.Intergas_Xtend', 'stats')['5077'] | int / 1000 }}
       icon: mdi:thermometer-lines
@@ -128,6 +130,7 @@
     - name: xtend_currentBoilerPowerThermal
       unique_id: 62b5d445-73d8-4a98-aeed-7f6019064663
       unit_of_measurement: "KW"
+      state_class: measurement
       state: >
         {{ state_attr('sensor.Intergas_Xtend', 'stats')['5088'] | int / 1000 }}
       icon: mdi:thermometer-lines
@@ -135,23 +138,10 @@
     - name: xtend_currentPowerElectric
       unique_id: e891e667-ac7d-4236-99d4-47d623fdaa7a
       unit_of_measurement: "W"
+      state_class: measurement
       state: >
         {{ state_attr('sensor.Intergas_Xtend', 'stats')['50f2'] | int }}
       icon: mdi:power-plug-outline
-
-    - name: xtend_HpSupply
-      unique_id: 4e500f3f-b25a-4114-be93-dac1a8ff8d49
-      unit_of_measurement: "°C"
-      state: >
-        {{ state_attr('sensor.Intergas_Xtend', 'stats')['7ee6'] | int / 100 }}
-      icon: mdi:temperature-celsius
-
-    - name: xtend_hpreturn
-      unique_id: d2203543-c663-4acd-9ce2-a2cc03c7f8ff
-      unit_of_measurement: "°C"
-      state: >
-        {{ state_attr('sensor.Intergas_Xtend', 'stats')['7e81'] | int / 100 }}
-      icon: mdi:temperature-celsius
 
     - name: xtend_heatpumpMode
       unique_id: 922f22d6-95df-44c3-9404-b37971155faa
@@ -177,6 +167,7 @@
     - name: xtend_roomtemperature_1
       unique_id: e4ef89b1-6e7e-411f-80df-27903695b1f4
       unit_of_measurement: "°C"
+      state_class: measurement
       state: >
         {{ state_attr('sensor.Intergas_Xtend', 'stats')['79b3'] | int / 100 }}
       icon: mdi:home-thermometer-outline
@@ -211,21 +202,24 @@
 
     - name: xtend_electricEnergyHeating
       unique_id: 10bbb3f8-c6a8-4496-afe9-a070189b79a0
-      unit_of_measurement: "KWh"
+      unit_of_measurement: "kWh"
+      state_class: total_increasing
       state: >
         {{ state_attr('sensor.Intergas_Xtend', 'stats')['63b3'] | int }}
       icon: mdi:power-plug-outline
 
     - name: xtend_thermalEnergyBoiler
       unique_id: 0f8df2d1-034f-4736-9bb0-01923ae76bbd
-      unit_of_measurement: "KWh"
+      unit_of_measurement: "kWh"
+      state_class: total_increasing
       state: >
         {{ state_attr('sensor.Intergas_Xtend', 'stats')['63df'] | int }}
       icon: mdi:thermometer-lines
 
     - name: xtend_thermalEnergyHeating
       unique_id: 090afc83-ce71-408d-8f64-33f2e5ddcd5d
-      unit_of_measurement: "KWh"
+      unit_of_measurement: "kWh"
+      state_class: total_increasing
       state: >
         {{ state_attr('sensor.Intergas_Xtend', 'stats')['63f0'] | int }}
       icon: mdi:thermometer-lines
@@ -306,6 +300,7 @@
     - name: xtend_operationHeatingHours
       unique_id: 583f1d7b-9b75-485e-b536-ed4e9e645a1a
       unit_of_measurement: "hours"
+      state_class: total_increasing
       state: >
         {{ state_attr('sensor.Intergas_Xtend', 'stats')['6ac5'] | int }}
       icon: mdi:clock-outline
@@ -368,6 +363,7 @@
     - name: xtend_poweron_hours
       unique_id: 13d1d006-cb08-47f0-83de-0af3d12b60ae
       unit_of_measurement: "Hours"
+      state_class: total_increasing
       state: >
         {{ state_attr('sensor.Intergas_Xtend', 'stats')['71a7'] | int }}
       icon: mdi:clock-outline
@@ -598,6 +594,7 @@
     - name: xtend_water_pressure
       unique_id: 58733d74-d58f-4e90-a4e4-053d465e3d23
       unit_of_measurement: "bar"
+      state_class: measurement
       state: >
         {{ state_attr('sensor.Intergas_Xtend', 'stats')['7ed3'] | int / 100 }}
       icon: mdi:timeline-clock-outline
@@ -643,6 +640,7 @@
     - name: xtend_cop_total
       unique_id: 1b5bdd12-0c38-417e-a460-0c6a5a2553f9
       unit_of_measurement: "thermal/KWh"
+      state_class: measurement
       state: >
         {{ (states('sensor.xtend_thermalEnergyHeating') | int / states('sensor.xtend_electricEnergyHeating') | int ) | float | round(1) }}
       icon: mdi:gauge
