@@ -115,6 +115,7 @@
     - name: xtend_currentCop
       unique_id: faa0c93c-5f46-4ff7-b9ce-bb609af880de
       unit_of_measurement: "thermal/kWh"
+      state_class: measurement
       state: >
         {{ state_attr('sensor.Intergas_Xtend', 'stats')['5041'] | int / 10 }}
       icon: mdi:gauge
@@ -203,6 +204,7 @@
     - name: xtend_electricEnergyHeating
       unique_id: 10bbb3f8-c6a8-4496-afe9-a070189b79a0
       unit_of_measurement: "kWh"
+      device_class: energy
       state_class: total_increasing
       state: >
         {{ state_attr('sensor.Intergas_Xtend', 'stats')['63b3'] | int }}
@@ -464,6 +466,8 @@
           BOILER_NO_CH_REPONSE
         {% elif value == 60 %}
           THERMOSTAT_VERSION
+        {% elif value == 73 %}
+          REFRIDGERANT_LOW
         {% elif value == 255 %}
           -
         {% else %}
@@ -642,7 +646,7 @@
       unit_of_measurement: "thermal/KWh"
       state_class: measurement
       state: >
-        {{ (states('sensor.xtend_thermalEnergyHeating') | int / states('sensor.xtend_electricEnergyHeating') | int ) | float | round(1) }}
+        {{ (states('sensor.xtend_thermalEnergyHeating') | int / states('sensor.xtend_electricEnergyHeating') | int ) | float | round(2) }}
       icon: mdi:gauge
 
     - name: xtend_deltaT

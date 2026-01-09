@@ -40,7 +40,7 @@
         {% endif %}
       icon: mdi:fire
 
-    - name: xtreme_boiler_ot_ch_gas_usage
+    - name: xtreme_gas_meter_ch
       unique_id: d8860817-e21a-4503-8169-c89520b7d14e
       unit_of_measurement: "m³"
       state: >
