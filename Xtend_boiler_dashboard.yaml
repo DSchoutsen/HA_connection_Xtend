@@ -39,7 +39,7 @@ sections:
           - entity: sensor.xtreme_boiler_ot_dhw_hours
           - entity: sensor.xtreme_boiler_ot_flame_loss
           - entity: sensor.xtend_thermalenergyboiler
-          - entity: sensor.xtreme_boiler_ot_dhw_gas_usage
+          - entity: sensor.xtreme_gas_meter_ch
         title: Boiler Summary
   - type: grid
     cards:
