@@ -40,6 +40,13 @@
         {% endif %}
       icon: mdi:fire
 
+    - name: xtreme_boiler_ot_ch_gas_usage
+      unique_id: d8860817-e21a-4503-8169-c89520b7d14e
+      unit_of_measurement: "m³"
+      state: >
+        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['7191'] | int / 10000 }}
+      icon: mdi:gauge
+
     - name: xtreme_boiler_ot_slave_version
       unique_id: 792e11c4-e482-4300-a605-299dd03431ab
       state: >
@@ -100,13 +107,6 @@
         {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8e00'] }}
       icon: mdi:counter
 
-    - name: xtreme_ot_boiler_temp_s16
-      unique_id: f38ff2cb-0793-489a-ac33-e9bde75bdc49
-      unit_of_measurement: "°C"
-      state: >
-        {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8e38'] | int / 100 }}
-      icon: mdi:thermometer-check
-
     - name: xtreme_boiler_ot_modulation_level_set
       unique_id: 667dc2ef-08d9-4468-90c8-3a7ff1ba6dc9
       unit_of_measurement: "%"
@@ -140,3 +140,10 @@
       state: >
         {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8e18'] | int }}
       icon: mdi:counter
+
+    - name: xtreme_deltaT
+      unique_id: e31b8d3d-5357-430b-8f1b-e814ea915c1e
+      unit_of_measurement: "°C"
+      state: >
+        {{ (states('sensor.xtreme_tBoilerSupply') | int - states('sensor.xtreme_tBoilerReturn') | int) | float | round(1) }}
+      icon: mdi:thermometer-check

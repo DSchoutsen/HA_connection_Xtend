@@ -2,7 +2,7 @@ title: Xtend Heatpump & Boiler
 path: Xtend_Heatpump_Boiler
 icon: mdi:heating-coil
 type: sections
-max_columns: 4
+max_columns: 3
 sections:
   - type: grid
     cards:
@@ -38,6 +38,8 @@ sections:
           - entity: sensor.xtreme_boiler_ot_ch_hours
           - entity: sensor.xtreme_boiler_ot_dhw_hours
           - entity: sensor.xtreme_boiler_ot_flame_loss
+          - entity: sensor.xtend_thermalenergyboiler
+          - entity: sensor.xtreme_boiler_ot_dhw_gas_usage
         title: Boiler Summary
   - type: grid
     cards:
@@ -76,12 +78,13 @@ sections:
             name: Currentl CoP
             entity: sensor.xtend_currentcop
             min: 0
-            max: 12
+            max: 13
             severity:
               green: 5
               yellow: 2.5
               red: 0
             needle: true
+            unit: " "
         layout_options:
           grid_columns: 2
           grid_rows: auto
@@ -105,6 +108,7 @@ sections:
               yellow: 2.5
               red: 0
             needle: true
+            unit: " "
         layout_options:
           grid_columns: 2
           grid_rows: auto
@@ -122,6 +126,24 @@ sections:
             title: Return temp
             entity: sensor.xtend_thpreturn
             scale: 20px
+        layout_options:
+          grid_columns: full
+      - type: horizontal-stack
+        cards:
+          - type: custom:bignumber-card
+            title: Supply temp
+            entity: sensor.xtreme_tboilersupply
+            scale: 20px
+          - type: custom:bignumber-card
+            title: Delta T
+            entity: sensor.xtreme_deltat
+            scale: 20px
+          - type: custom:bignumber-card
+            title: Return temp
+            entity: sensor.xtreme_tboilerreturn
+            scale: 20px
+        layout_options:
+          grid_columns: full
   - type: grid
     cards:
       - type: entities
@@ -150,6 +172,8 @@ sections:
             name: Exhaust gas temperature
           - entity: sensor.xtend_suctiontemperature
             name: Suction line gas temperature
+          - entity: sensor.xtend_coiltemperature
+            name: Coil temperature
           - entity: sensor.xtend_temperaturecondensor_refrigrerant_gas
             name: T condensor Gas
           - entity: sensor.xtend_temperaturecondensor_refrigrerant_liquid
@@ -160,8 +184,6 @@ sections:
             name: Discharge Overheat
           - entity: sensor.xtend_temperaturesubcooling
             name: Subcooling
-          - entity: sensor.xtend_coiltemperature
-            name: Coil temperature
           - entity: sensor.xtend_actualfrequency
             name: Compressor Frequency
           - entity: sensor.xtend_actualfan1speed
@@ -175,28 +197,18 @@ sections:
           - entity: sensor.xtend_errorcode
             name: Error Code
         title: Heatpump live data
-  - type: grid
-    cards:
       - type: entities
         entities:
           - entity: sensor.xtreme_boiler_ot_slave_opentherm_version
             name: Boiler OT version
           - entity: sensor.xtreme_boiler_ot_slave_version
             name: Boiler OT slave version
-          - entity: sensor.xtreme_ot_boiler_temp_s16
-            name: Boiler temperature
           - entity: sensor.xtreme_burner_status
             name: Boiler flame
           - entity: sensor.xtreme_boiler_ot_modulation_level_set
             name: Boiler modulation target
           - entity: sensor.xtreme_boiler_ot_modulation_level
             name: Boiler modulation level
-          - entity: sensor.xtreme_boiler_ot_dhw_setpoint
-            name: Boiler DHW max.
-          - entity: sensor.xtreme_boiler_ot_dhw_temperature
-            name: Boiler DHW actual
-          - entity: sensor.xtreme_boiler_ot_dhw_flowrate
-            name: Boiler DHW flowrate
           - entity: sensor.xtreme_boiler_ot_ch_pressure
             name: Boiler CH pressure
           - entity: sensor.xtreme_boiler_ot_ch_water_setpoint
@@ -207,6 +219,14 @@ sections:
             name: Boiler CH return
           - entity: sensor.xtreme_boiler_ot_control_setpoint
             name: Boiler control setpoint
+          - entity: sensor.xtreme_boiler_ot_dhw_setpoint
+            name: Boiler DHW max.
+          - entity: sensor.xtreme_boiler_ot_dhw_temperature
+            name: Boiler DHW actual
+          - entity: sensor.xtreme_boiler_ot_dhw_flowrate
+            name: Boiler DHW flowrate
         title: Boiler live data
+  - type: grid
+    cards: []
 cards: []
 background: {}
