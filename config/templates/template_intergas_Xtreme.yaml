@@ -16,32 +16,44 @@
     - name: xtreme_burner_status
       unique_id: af8128bb-51b3-4bbe-bbc6-dca209d68bb1
       state: >
-        {% set value = state_attr('sensor.Intergas_Xtreme', 'stats')['7e7a'] %}
-        {% if value == 0 %}
-          Startup
-        {% elif value == 1 %}
-          Interpurge
-        {% elif value == 2 %}
-          Postpurge
-        {% elif value == 4 %}
-          Prepurge
-        {% elif value == 8 %}
-          Ignition
-        {% elif value == 16 %}
-          Waiting
-        {% elif value == 32 %}
-          Running
-        {% elif value == 64 %}
-          Rest
-        {% elif value == 128 %}
-          Lockout
+        {% set raw_value = state_attr('sensor.Intergas_Xtreme', 'stats')['7e7a'] | int(default=-1) %}
+        {% set statuses = {
+          0: 'Startup',
+          1: 'Interpurge',
+          2: 'Postpurge',
+          4: 'Prepurge',
+          8: 'Ignition',
+          16: 'Waiting',
+          32: 'Running',
+          64: 'Rest',
+          128: 'Lockout'
+        } %}
+        {% if raw_value == -1 %}
+          unavailable
         {% else %}
-          Unknown
+          {{ statuses.get(raw_value, 'Unknown (' ~ raw_value ~ ')') }}
         {% endif %}
-      icon: mdi:fire
+      icon: >
+        {% set status = states('sensor.xtreme_burner_status') %}
+        {% set active_states = ['Running', 'Ignition'] %}
+        {% set purge_states = ['Prepurge', 'Interpurge', 'Postpurge'] %}
+        {% set idle_states = ['Waiting', 'Rest', 'Startup'] %}
+        
+        {% if status == 'Lockout' %}
+          mdi:lock-alert
+        {% elif status in active_states %}
+          mdi:fire
+        {% elif status in purge_states %}
+          mdi:fan
+        {% elif status in idle_states %}
+          mdi:power-off
+        {% else %}
+          mdi:fire-outline
+        {% endif %}
 
     - name: xtreme_gas_meter_ch
       unique_id: d8860817-e21a-4503-8169-c89520b7d14e
+      device_class: volume
       unit_of_measurement: "m³"
       state: >
         {{ state_attr('sensor.Intergas_Xtreme', 'stats')['7191'] | int / 10000 }}
@@ -61,6 +73,7 @@
 
     - name: xtreme_boiler_ot_dhw_temperature
       unique_id: b0edc5cb-bba0-45d4-872e-bdb58da4977e
+      device_class: temperature
       unit_of_measurement: "°C"
       state: >
         {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8edb'] | int / 100 }}
@@ -68,6 +81,7 @@
 
     - name: xtreme_boiler_ot_dhw_setpoint
       unique_id: c0928c37-ebf9-40aa-8c66-8224fb03c520
+      device_class: temperature
       unit_of_measurement: "°C"
       state: >
         {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8ecb'] | int / 100 }}
@@ -78,17 +92,20 @@
       state: >
         {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8e37'] | int }}
       icon: mdi:counter
-      unit_of_measurement: "hours"
+      unit_of_measurement: h
+      device_class: duration
 
     - name: xtreme_boiler_ot_dhw_flowrate
       unique_id: c981ee19-b9ea-488d-85eb-616d7c4633d1
-      unit_of_measurement: "l/min"
+      unit_of_measurement: "L/min"
+      device_class: volume_flow_rate
       state: >
         {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8e7f'] | int / 100 }}
       icon: mdi:waves-arrow-right
 
     - name: xtreme_boiler_ot_ch_water_setpoint
       unique_id: eda397f0-856e-47fe-a33e-d8139e67c52e
+      device_class: temperature
       unit_of_measurement: "°C"
       state: >
         {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8e8f'] | int / 100 }}
@@ -96,7 +113,8 @@
 
     - name: xtreme_boiler_ot_ch_hours
       unique_id: ef280317-7a28-4408-9742-071f2459b4aa
-      unit_of_measurement: "hours"
+      unit_of_measurement: h
+      device_class: duration
       state: >
         {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8ef9'] | int }}
       icon: mdi:counter
@@ -116,6 +134,7 @@
 
     - name: xtreme_boiler_ot_control_setpoint
       unique_id: 24748fbe-e0c2-4ca7-ad36-50ec672ba58f
+      device_class: temperature
       unit_of_measurement: "°C"
       state: >
         {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8434'] | int / 100 }}
@@ -141,9 +160,70 @@
         {{ state_attr('sensor.Intergas_Xtreme', 'stats')['8e18'] | int }}
       icon: mdi:counter
 
+    # Custom calculated xtreme entities
+
     - name: xtreme_deltaT
       unique_id: e31b8d3d-5357-430b-8f1b-e814ea915c1e
       unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
       state: >
-        {{ (states('sensor.xtreme_tBoilerSupply') | int - states('sensor.xtreme_tBoilerReturn') | int) | float | round(1) }}
-      icon: mdi:thermometer-check
+        {% set supply = states('sensor.xtreme_tBoilerSupply') | float('nan') %}
+        {% set return = states('sensor.xtreme_tBoilerReturn') | float('nan') %}
+        {% if supply != supply or return != return %}
+          unavailable
+        {% else %}
+          {{ (supply - return) | round(1) }}
+        {% endif %}
+      icon: >
+        {% set delta = states('sensor.xtreme_deltaT') | float(0) %}
+        {% if delta > 10 %}
+          mdi:thermometer-high
+        {% elif delta > 5 %}
+          mdi:thermometer-check
+        {% elif delta > 0 %}
+          mdi:thermometer-low
+        {% else %}
+          mdi:thermometer-off
+        {% endif %}
+      availability: >
+        {{ states('sensor.xtreme_tBoilerSupply') not in ['unknown', 'unavailable', 'none'] and 
+            states('sensor.xtreme_tBoilerReturn') not in ['unknown', 'unavailable', 'none'] }}
+
+    - name: xtreme_efficiency
+      unique_id: b5318c85-ed74-4574-b6f7-bf0e0a25bc34
+      unit_of_measurement: "kWh/m³"
+      state_class: measurement
+      state: >
+        {% set thermal = states('sensor.xtend_thermalEnergyBoiler') | float(0) %}
+        {% set gas = states('sensor.xtreme_gas_meter_ch') | float(0) %}
+        {% if gas <= 0 %}
+          0
+        {% else %}
+          {{ (thermal / gas) | round(3) }}
+        {% endif %}
+      icon: >
+        {% set eff = states('sensor.xtreme_efficiency') | float(0) %}
+        {% if eff >= 10 %}
+          mdi:gauge-full
+        {% elif eff >= 8 %}
+          mdi:gauge
+        {% elif eff > 0 %}
+          mdi:gauge-empty
+        {% else %}
+          mdi:gauge-off
+        {% endif %}
+      availability: >
+        {{ states('sensor.xtend_thermalEnergyBoiler') not in ['unknown', 'unavailable', 'none'] and 
+            states('sensor.xtreme_gas_meter_ch') not in ['unknown', 'unavailable', 'none'] }}
+
+- binary_sensor:
+    - name: "Xtreme Active Check"
+      unique_id: 0e3bae55-3c03-4722-a306-b919c78f0cb8
+      state: "{{ states('sensor.xtreme_deltat') | float(0) > 0.5 }}"
+      icon: >
+        {% if states('sensor.xtreme_deltat') | float(0) > 0.5 %}
+          mdi:fire
+        {% else %}
+          mdi:fire-off
+        {% endif %}
