@@ -546,6 +546,8 @@
           189: 'postrun_cooling',
           204: 'dhw',
           205: 'dhw_hreco',
+          206: 'legionella-run',
+          207: 'waiting_for_xtore_heating',
           230: 'starting_ch',
           231: 'postrun_ch',
           240: 'boiler_int',
@@ -558,7 +560,7 @@
         {% endif %}
       icon: >
         {% set status = states('sensor.xtend_heatdemand_status') %}
-        {% set heating_states = ['ch', 'ch_wait', 'starting_ch', 'postrun_ch', 'boiler_int', 'boiler_ext', 'opentherm', 'crankheating', 'heatup'] %}
+        {% set heating_states = ['ch', 'ch_wait', 'starting_ch', 'postrun_ch', 'boiler_int', 'boiler_ext', 'opentherm', 'crankheating', 'heatup', 'legionella-run', 'waiting_for_xtore_heating'] %}
         {% set cooling_states = ['cooling', 'cooling_wait', 'starting_cooling', 'postrun_cooling'] %}
         {% set dhw_states = ['dhw', 'dhw_hreco'] %}
         {% set idle_states = ['off', 'standby', 'frost'] %}
